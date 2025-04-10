@@ -1,3 +1,7 @@
+
+# ignore large data files
+data/
+
 # History files
 .Rhistory
 .Rapp.history
