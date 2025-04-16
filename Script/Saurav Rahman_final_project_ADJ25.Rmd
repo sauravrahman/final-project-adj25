@@ -1,0 +1,258 @@
+---
+title: "Saurav Rahman_final_project_ADJ25"
+output: html_notebook
+---
+
+#Load library
+```{r}
+
+library(tidyverse)
+
+```
+#Load data
+#Process: I imported the data with the name "wage_theft" using the "read_csv" code.
+```{r}
+
+wage_theft <- read_csv("data/whd_whisard.csv")
+
+```
+
+#Get to know the data/ Data dictionary:
+1. How many rows?
+#Answer: 357,269 rows
+
+2. What is one row?- 
+#Answer: Each row represents a single, concluded compliance action (investigation or case) conducted by the Department of Labor at a specific employer. 
+
+3. How many column?- 
+#Answer: Initially, the dataset contained 110 columns. However, several columns contained only zero values and no meaningful data, so I excluded those. After removing these columns, the number of columns was reduced to 94. Next, I extracted the 'finding_start_date' column into separate columns for Date, Month, and Year to enable more detailed time-based analysis. This transformation increased the total number of columns to 97, with the addition of the new 'Date', 'Month', and 'Year' columns. 
+
+4. What is in every column?
+#Answer: The data set begins with the case ID, followed by the employer’s name, address, and the case start and end dates. In addition to these demographic details, there are nearly 100 columns containing data related to the number of violations, back wage amounts, and fines. From these, the 20 most relevant indicators will be selected for analysis.
+
+#Exclude the columns that contain only zeros in all rows.
+#Process: I used the select() function to choose which columns to keep, combined with where(~all(. == 0)) to filter out columns where all values are zero. The result was stored in a new dataset called cleaned_wage_theft. 
+```{r}
+
+cleaned_wage_theft <- wage_theft %>%
+  select(where(~!all(. == 0)))
+
+```
+
+
+#Process: At this point in my analysis, I wanted to separate the month and year from the findings_start_date column to perform time-based analysis. Initially, I used the mdy() function to convert the findings_start_date into separate Date, Month, and Year components. However, I realized that the actual date format was "ymd", so I switched to using the ymd() function to properly extract the Month and Year. While the function successfully separated the data, it returned a warning message. After doing some research, I found that adding the argument quiet = TRUE would suppress the warning. Once I included this, I was able to separate the column cleanly without any further warnings.With these updates, I created a new dataset called US_wage_theft.I chose to analyze the findings_start_date because it represents the point at which the Wage and Hour Division first determines whether there is a violation or no violation in a case. This date marks the beginning of the findings phase, where initial conclusions are drawn based on available evidence and analysis.
+```{r}
+
+US_wage_theft <- cleaned_wage_theft %>%
+mutate (Date = mdy (findings_start_date), Month = month (findings_start_date), Year = year (findings_start_date))
+
+US_wage_theft <- cleaned_wage_theft %>%
+mutate (Date = ymd (findings_start_date), Month = month (findings_start_date), Year = year (findings_start_date))
+
+
+US_wage_theft <- cleaned_wage_theft %>%
+  mutate(
+    Date = ymd(findings_start_date, quiet = TRUE),
+    Month = month(ymd(findings_start_date, quiet = TRUE)),
+    Year = year(ymd(findings_start_date, quiet = TRUE)))
+
+```
+
+5.What are the date boundaries of the data? 
+#need attention 
+```{r}
+
+US_wage_theft %>% 
+  mutate(Date = mdy (Date)) %>% 
+  summarise(range(Date))
+
+US_wage_theft %>% 
+  mutate(Date = ymd (Date)) %>% 
+  summarise(range(Date))
+
+```
+
+6. In total, how many years and months of data are in this dataset?
+#Answer: I assume there are some errors in the date data. According to the data source, the period starts from 1985. However, it also includes data from the 1900s and 1960s. Additionally, there are 21 cases without a date. Despite these errors, I consider them minimal and have analyzed the data accordingly. The dataset spans a total of 436 months, from January 1990 to March 2025.
+#Process: To find the total number of months and years, I used the count function, which provides month-wise data for each year.
+```{r}
+
+US_wage_theft %>% 
+  count(Year, Month)
+
+```
+
+7. Are there any blank rows in the "case_id" column?
+#Answer: No, the case ID is mentioned in all rows of the dataset. 
+```{r}
+
+US_wage_theft %>%
+  filter(is.na(case_id) | case_id == "")
+
+```
+
+8. Are there any blank rows in the "trade-nm" (Employer name) column?
+#Answer: No, the employer/business name is mentioned in all rows. 
+```{r}
+
+US_wage_theft %>%
+  filter(is.na(trade_nm) | trade_nm == "")
+
+```
+
+9. Are there any blank rows in the "date" column?
+#Answer: Yes, there are 21 rows where the finding start date is not mentioned.  
+```{r}
+
+US_wage_theft %>%
+  filter(is.na(Date) | Date == "")
+
+```
+
+10. Are there any blank rows in the "st_cd" (State name) column?
+#Answer: Yes, there are 3 rows where the state name of the employer/business is not mentioned.
+```{r}
+
+US_wage_theft %>%
+  filter(is.na(st_cd) | st_cd == "")
+
+```
+
+11. How many unique cases are in the data?
+#Answer: 357,269. This indicates that there are no duplicate case ID numbers in the dataset—all are unique.  	
+```{r}
+
+US_wage_theft %>%
+  summarise(case_id = n_distinct(case_id))
+
+```
+
+Q1. Which state has the highest number of wage theft cases in the United States, according to Wage and Hour Compliance Action Data? Where does Missouri rank on the list?
+#Answer: Texas has the highest number, with 45,983 individual cases of Wage and Hour Compliance violations. Missouri ranks 13th on the list, with 7,871 violation cases.
+#Process: 
+```{r}
+
+US_wage_theft %>%
+  count(st_cd) %>%
+  arrange (desc (n))
+
+```
+
+Q2. Which state experienced the highest total number of wage theft violations in the United States, according to Wage and Hour Compliance Action Data? Where does Missouri rank on the list?
+#Answer: Florida recorded the highest number, with a total of 1,185,054 Wage and Hour Compliance violations across 29,046 cases. Missouri ranks 25th on the list, with a total of 131,087 violations.
+```{r}
+
+US_wage_theft %>%
+  group_by(st_cd) %>%
+  summarise (total_case_vio = sum (case_violtn_cnt)) %>%
+  arrange (desc (total_case_vio))
+
+```
+
+Q3. Against which company or business did employees file the highest number of wage theft cases in the United States, according to Wage and Hour Compliance Action Data?
+#Answer: Subway. There are a total of 1,359 cases across all states in which Subway was found guilty of violating Wage and Hour Compliance.
+#Process: 
+```{r}
+
+US_wage_theft %>%
+  count(trade_nm) %>%
+  arrange (desc (n))
+
+```
+
+Q4. Which company or business committed the highest number of wage theft violations in the United States, according to Wage and Hour Compliance Action Data?
+#Answer: Wells Fargo Bank, N.A. accounted for the highest number, with a total of 530,002 Wage and Hour Compliance violations in the U.S.
+```{r}
+
+US_wage_theft %>%
+  group_by(trade_nm) %>%
+  summarise (total_case_vio = sum (case_violtn_cnt)) %>%
+  arrange (desc (total_case_vio))
+
+```
+
+Q5. Which employer/business had to pay the highest amount in back wages to its employees for violating Hour and Wage Compliance across the U.S.?
+#Answer: Puerto Rico Department of Corrections — $39,950,933.10.
+```{r}
+
+US_wage_theft %>%
+  group_by(trade_nm) %>%
+  summarise (total_Backwages = sum (bw_atp_amt)) %>%
+  arrange (desc (total_Backwages))
+
+```
+
+Q6. Which employer/company had to pay back wages to the highest number of employees for violating Hour and Wage Compliance across the U.S.?
+#Answer: Walmart had to pay back wages to a total of 88,226 employees for violating Hour and Wage Compliance across the U.S.
+```{r}
+
+US_wage_theft %>%
+  group_by(trade_nm) %>%
+  summarise (total_employee_to_pay = sum (ee_atp_cmt)) %>%
+  arrange (desc (total_employee_to_pay))
+
+```
+
+Q7. Which employer/business had to pay the highest total amount of civil money penalties (CMP) for violating Hour and Wage Compliance across the U.S.?
+#Answer: The results contain some errors and need further review.
+```{r}
+
+US_wage_theft %>%
+  group_by(trade_nm) %>%
+  summarise (total_cmp_assd = sum (cmp_assd)) %>%
+  arrange (desc (total_cmp_assd))
+
+US_wage_theft %>% filter(trade_nm == "Peri & Sons Farm, Inc.")
+
+```
+
+Q8. Which employer/business violated Hour and Wage Compliance against the highest number of employees in the U.S.?
+#Answer: Walmart. A total of 88,278 employees were affected by Walmart's violations of Hour and Wage Compliance, which is the highest number in U.S..
+```{r}
+
+US_wage_theft %>%
+  group_by(trade_nm) %>%
+  summarise (total_affected_employees = sum (ee_violtd_cnt)) %>%
+  arrange (desc (total_affected_employees))
+
+```
+
+Q9. What is the year-wise trend for Wage & Hour Compliance violation cases in the U.S.?
+#Answer: The year 2010 recorded the highest number of cases, with 24,954. However, the analysis shows that the period from 2009 to 2013 saw the highest yearly case counts for Wage & Hour Compliance violations. The total number of violations varied across these years. For example, in 2012, the total number of cases was comparatively lower among the top five years, but the total number of violations was the highest.   	
+```{r}
+
+US_wage_theft %>%
+  count(Year) %>% 
+  arrange (desc (n))
+
+US_wage_theft %>%
+  group_by(Year) %>%
+  summarise ( count = n(), total_violation = sum (case_violtn_cnt)) %>%
+  arrange (desc (count))
+
+```
+
+Q10. What is the trend in Wage & Hour Compliance violation cases in the U.S. over the last 10 years?
+#Answer: Wage & Hour Compliance violation cases across the U.S. have been steadily decreasing over the past 10 years. In 2015, the total number of cases was 18,500, which dropped significantly to just 717 in 2024. However, the total number of violations within these cases varied by year. Despite these fluctuations, the number of violations has also shown a downward trend since 2019.   
+```{r}
+
+US_wage_theft %>%
+  filter ( Year == "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024")
+  count(Year) %>% 
+  arrange (desc (n))
+  
+US_wage_theft %>%
+  filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
+  count(Year) %>% 
+  arrange(desc(n))
+
+US_wage_theft %>%
+  filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
+  group_by(Year) %>%
+  summarize(count = n(),
+    total_violation = sum(case_violtn_cnt)) %>%
+  arrange(desc(count))
+
+```
+
+Q11.
