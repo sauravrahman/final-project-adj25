@@ -72,7 +72,7 @@ US_wage_theft %>%
 
 ```
 
-6. In total, how many years and months of data are in this dataset?
+6. In total, how many years and months of data are in this data set?
 #Answer: I assume there are some errors in the date data. According to the data source, the period starts from 1985. However, it also includes data from the 1900s and 1960s. Additionally, there are 21 cases without a date. Despite these errors, I consider them minimal and have analyzed the data accordingly. The dataset spans a total of 436 months, from January 1990 to March 2025.
 #Process: To find the total number of months and years, I used the count function, which provides month-wise data for each year.
 ```{r}
@@ -83,7 +83,8 @@ US_wage_theft %>%
 ```
 
 7. Are there any blank rows in the "case_id" column?
-#Answer: No, the case ID is mentioned in all rows of the dataset. 
+#Answer: No, there are no blank or missing values in the "case_id" column. Each row in the dataset contains a valid case ID.
+#Process: To ensure data completeness in the main column of the dataset, I checked for any missing values in the "case_id" column using the is.na() function. This function helps identify NA values (i.e., missing data). After applying the check, I confirmed that no rows have missing values in the "case_id" column.
 ```{r}
 
 US_wage_theft %>%
@@ -91,8 +92,9 @@ US_wage_theft %>%
 
 ```
 
-8. Are there any blank rows in the "trade-nm" (Employer name) column?
-#Answer: No, the employer/business name is mentioned in all rows. 
+8. Are there any blank rows in the "trade_nm" (Employer name) column?
+#Answer: No, the employer/business name is mentioned in all rows. There are no missing values in the "trade_nm" column.
+#Process:I used the same is.na() function to check whether any employer names were missing in the "trade_nm" column. The result showed 0 (zero) missing rows, which means no data is missing in this column either.
 ```{r}
 
 US_wage_theft %>%
@@ -101,7 +103,8 @@ US_wage_theft %>%
 ```
 
 9. Are there any blank rows in the "date" column?
-#Answer: Yes, there are 21 rows where the finding start date is not mentioned.  
+#Answer: Yes, there are 21 rows where the finding start date is not mentioned.
+#Process:I used the same is.na() function to check whether any values were missing in the "date" column. The result showed 21 missing rows, indicating that the start date is not provided in those entries.
 ```{r}
 
 US_wage_theft %>%
@@ -111,6 +114,7 @@ US_wage_theft %>%
 
 10. Are there any blank rows in the "st_cd" (State name) column?
 #Answer: Yes, there are 3 rows where the state name of the employer/business is not mentioned.
+#Process:I used the same is.na() function to check for missing values in the "st_cd" column. The result showed 3 blank rows, indicating that the state name is not provided in those rows.
 ```{r}
 
 US_wage_theft %>%
@@ -119,7 +123,8 @@ US_wage_theft %>%
 ```
 
 11. How many unique cases are in the data?
-#Answer: 357,269. This indicates that there are no duplicate case ID numbers in the dataset—all are unique.  	
+#Answer: 357,269. This indicates that there are no duplicate case ID numbers in the dataset—all case IDs are unique.
+#Process: I wanted to check how many unique case_id exist and whether any case IDs are repeated or duplicated. For that, I used the summarize() function with the n_distinct() code. The result returned the same number of rows as in the dataset, which confirms that all case_id values are unique.
 ```{r}
 
 US_wage_theft %>%
@@ -127,31 +132,43 @@ US_wage_theft %>%
 
 ```
 
+11. How many unique employers are in the data?
+#Answer: 298,751. This indicates that many employers appear multiple times for wage violations in different states across the U.S.
+#Process:I wanted to check how many unique employers exist in the dataset. For that, I used the summarize() function with the n_distinct() code, similar to the previous question. 
+```{r}
+
+US_wage_theft %>%
+  summarise(Unique_Employer = n_distinct(trade_nm))
+
+```
+
 Q1. Which state has the highest number of wage theft cases in the United States, according to Wage and Hour Compliance Action Data? Where does Missouri rank on the list?
 #Answer: Texas has the highest number, with 45,983 individual cases of Wage and Hour Compliance violations. Missouri ranks 13th on the list, with 7,871 violation cases.
-#Process: 
+#Process: To identify the state-wise wage theft cases, I used the count() function. Since each case is represented by an individual row, and each row includes a specific state name, I counted the state using the count() function. Then, I arranged the results in descending order to find the state with the highest number of wage theft cases in the U.S. 
 ```{r}
 
 US_wage_theft %>%
   count(st_cd) %>%
   arrange (desc (n))
 
+
 ```
 
 Q2. Which state experienced the highest total number of wage theft violations in the United States, according to Wage and Hour Compliance Action Data? Where does Missouri rank on the list?
 #Answer: Florida recorded the highest number, with a total of 1,185,054 Wage and Hour Compliance violations across 29,046 cases. Missouri ranks 25th on the list, with a total of 131,087 violations.
+#Process:The Department of Labor found several compliance violations in each wage theft case, meaning that a single case can involve multiple violations. Based on these violations, authorities fined the companies. Therefore, it is important to examine the number of violations committed by businesses in different states.To do this, I first grouped the data by state, then summarized the case_violtn_cnt column, which represents the total number of violations per case. Finally, I arranged the results in descending order to identify the states where businesses violated wage and hour compliance the most.  
 ```{r}
 
 US_wage_theft %>%
   group_by(st_cd) %>%
-  summarise (total_case_vio = sum (case_violtn_cnt)) %>%
-  arrange (desc (total_case_vio))
+  summarise (Total_Violation = sum (case_violtn_cnt)) %>%
+  arrange (desc (Total_Violation))
 
 ```
 
 Q3. Against which company or business did employees file the highest number of wage theft cases in the United States, according to Wage and Hour Compliance Action Data?
 #Answer: Subway. There are a total of 1,359 cases across all states in which Subway was found guilty of violating Wage and Hour Compliance.
-#Process: 
+#Process:During the assessment of the dataset, I found that there are several employers who have multiple cases across the U.S. Many of these employers operate chain businesses in different states. So, while analyzing the national data, I wanted to identify which employers or businesses have the highest number of total cases.To do this, I used the count() function on the employer name (trade_nm), similar to how I counted total cases by state. 
 ```{r}
 
 US_wage_theft %>%
@@ -162,38 +179,29 @@ US_wage_theft %>%
 
 Q4. Which company or business committed the highest number of wage theft violations in the United States, according to Wage and Hour Compliance Action Data?
 #Answer: Wells Fargo Bank, N.A. accounted for the highest number, with a total of 530,002 Wage and Hour Compliance violations in the U.S.
+#Process: Since the number of cases and the number of violations are different, I wanted to identify which employers had the highest number of violations. To do this, I grouped the data by trade_nm (employer name), then summarized the case_violtn_cnt (total number of violations), and arranged the results in descending order. I could have included this analysis in the previous question as well. However, that would have required choosing just one indicator to sort by. In doing so, I wouldn't have been able to identify the employers with the highest numbers for both indicators, as the employers with the most cases are not necessarily the same as those with the most violations.
 ```{r}
 
 US_wage_theft %>%
   group_by(trade_nm) %>%
-  summarise (total_case_vio = sum (case_violtn_cnt)) %>%
-  arrange (desc (total_case_vio))
+  summarise (Total_Violation = sum (case_violtn_cnt)) %>%
+  arrange (desc (Total_Violation))
 
 ```
 
 Q5. Which employer/business had to pay the highest amount in back wages to its employees for violating Hour and Wage Compliance across the U.S.?
 #Answer: Puerto Rico Department of Corrections — $39,950,933.10.
+#Process:"Back Wages Agreed to Pay" is an important indicator, as it reflects the financial restitution provided to workers who were victims of wage theft or other labor violations. Therefore, I wanted to find out which employers had to pay the highest amount in back wages.To analyze this, I followed a similar approach as in the previous question. However, this time I summarized the bw_atp_amt (back wages agreed to pay) and arranged the results in descending order. The outcome revealed some new employer names that were not at the top in the previous analysis, indicating that different employers are associated with different types and levels of violations. Furthermore, I wanted to see how many employees were set to receive those back wages. So, I added another sum() function for the ee_atp_cnt indicator, which refers to the total number of employees receiving back wages. This result appeared in a separate column alongside the total back wages. 
 ```{r}
 
 US_wage_theft %>%
   group_by(trade_nm) %>%
-  summarise (total_Backwages = sum (bw_atp_amt)) %>%
+  summarise (total_Backwages = sum (bw_atp_amt), Total_Employee_to_Pay = sum (ee_atp_cmt)) %>%
   arrange (desc (total_Backwages))
 
 ```
 
-Q6. Which employer/company had to pay back wages to the highest number of employees for violating Hour and Wage Compliance across the U.S.?
-#Answer: Walmart had to pay back wages to a total of 88,226 employees for violating Hour and Wage Compliance across the U.S.
-```{r}
-
-US_wage_theft %>%
-  group_by(trade_nm) %>%
-  summarise (total_employee_to_pay = sum (ee_atp_cmt)) %>%
-  arrange (desc (total_employee_to_pay))
-
-```
-
-Q7. Which employer/business had to pay the highest total amount of civil money penalties (CMP) for violating Hour and Wage Compliance across the U.S.?
+Q6. Which employer/business had to pay the highest total amount of civil money penalties (CMP) for violating Hour and Wage Compliance across the U.S.?
 #Answer: The results contain some errors and need further review.
 ```{r}
 
@@ -206,8 +214,9 @@ US_wage_theft %>% filter(trade_nm == "Peri & Sons Farm, Inc.")
 
 ```
 
-Q8. Which employer/business violated Hour and Wage Compliance against the highest number of employees in the U.S.?
+Q7. Which employer/business violated Hour and Wage Compliance against the highest number of employees in the U.S.?
 #Answer: Walmart. A total of 88,278 employees were affected by Walmart's violations of Hour and Wage Compliance, which is the highest number in U.S..
+#Process: Another important variable in this dataset is ee_violtd_cnt, which refers to the number of employees affected by violations. Using this variable, I wanted to identify which employers affected the highest number of employees across the U.S. To analyze this, I grouped the data by trade_nm (employer name) and summarized the "ee_violtd_cnt" variable. Then, I arranged the results in descending order to highlight the employers with the greatest number of affected employees.  
 ```{r}
 
 US_wage_theft %>%
@@ -217,34 +226,22 @@ US_wage_theft %>%
 
 ```
 
-Q9. What is the year-wise trend for Wage & Hour Compliance violation cases in the U.S.?
-#Answer: The year 2010 recorded the highest number of cases, with 24,954. However, the analysis shows that the period from 2009 to 2013 saw the highest yearly case counts for Wage & Hour Compliance violations. The total number of violations varied across these years. For example, in 2012, the total number of cases was comparatively lower among the top five years, but the total number of violations was the highest.   	
+Q8. What is the year-wise trend for Wage & Hour Compliance violation cases in the U.S.?
+#Answer: The year 2010 recorded the highest number of cases, with 24,954. However, the analysis shows that the period from 2009 to 2013 saw the highest yearly case counts for Wage & Hour Compliance violations. The total number of violations varied across these years. For example, in 2012, the total number of cases was comparatively lower among the top five years, but the total number of violations was the highest. 
+#Process: I wanted to analyze the year-wise trend of total Wage & Hour Compliance violation cases and the total number of violations. To do this, I grouped the data by year and then summarized both the number of cases and the total violations.For the number of cases, I used the count() function with n() to count each case as a single, unique instance. For violations, I used sum() to calculate the total number of violations across all cases for each year. Finally, I arranged the results of total cases in descending order to observe which years had the highest numbers of cases.
 ```{r}
 
 US_wage_theft %>%
-  count(Year) %>% 
-  arrange (desc (n))
-
-US_wage_theft %>%
   group_by(Year) %>%
-  summarise ( count = n(), total_violation = sum (case_violtn_cnt)) %>%
+  summarise ( count = n(), Total_Violation = sum (case_violtn_cnt)) %>%
   arrange (desc (count))
 
 ```
 
-Q10. What is the trend in Wage & Hour Compliance violation cases in the U.S. over the last 10 years?
-#Answer: Wage & Hour Compliance violation cases across the U.S. have been steadily decreasing over the past 10 years. In 2015, the total number of cases was 18,500, which dropped significantly to just 717 in 2024. However, the total number of violations within these cases varied by year. Despite these fluctuations, the number of violations has also shown a downward trend since 2019.   
+Q9. What is the trend in Wage & Hour Compliance violation cases in the U.S. over the last 10 years?
+#Answer: Wage & Hour Compliance violation cases across the U.S. have been steadily decreasing over the past 10 years. In 2015, the total number of cases was 18,500, which dropped significantly to just 717 in 2024. However, the total number of violations within these cases varied by year. Despite these fluctuations, the number of violations has also shown a downward trend since 2019.
+#process: For this question, I followed a similar approach as in the previous questions, but added a filter for specific years. To apply the filter, I used the %in% c() syntax for accurate results. 
 ```{r}
-
-US_wage_theft %>%
-  filter ( Year == "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024")
-  count(Year) %>% 
-  arrange (desc (n))
-  
-US_wage_theft %>%
-  filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
-  count(Year) %>% 
-  arrange(desc(n))
 
 US_wage_theft %>%
   filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
@@ -255,4 +252,107 @@ US_wage_theft %>%
 
 ```
 
-Q11.
+Q10. Which industry has the highest number of Wage & Hour Compliance cases and violations in the U.S.? How many employees were affected in those industries?
+#Answer: The restaurant and hotel industry has the highest number of Wage & Hour Compliance violation cases. This industry also tops the list in terms of total violations and the total number of affected employees.
+#Process: To identify industry-wise wage theft patterns, I grouped the dataset by naics_code_description, which represents the name of the industry. After grouping, I summarized three key indicators: total cases, total number of violations, and total affected employees. I used count with n() to calculate the total number of wage theft cases per industry, treating each row as a unique instance. For the other two variables, I used the summarize() function to calculate the totals. Finally, I arranged the results in descending order based on the number of cases (count) to identify the industries with the highest number of reported wage and hour violations.
+```{r}
+
+US_wage_theft %>%
+  group_by( industry = naics_code_description) %>%
+  summarise ( count = n(), total_violation = sum (case_violtn_cnt), total_affected_employees = sum (ee_violtd_cnt)) %>%
+  arrange (desc (count))
+
+```
+
+Q11: Which indicators of Wage & Hour Complince  Action data has the highest total violation? 
+#Answer: Family and Medical Leave Act (FMLA) violation : 6,618,226. folwing Service Contract Violation: 480,704. 
+#Process: Wage & Hour Complince  Action data has more than 80 variable, half of those are relate to voilation count. Among them 6 veriable are most impotant to follow accoding to Department of Labor. That why I messure those to answer this question. First, I selected six specific violation-related columns from the dataset: flsa_violtn_cnt (Fair Labor Standards Act violations), mspa_violtn_cnt (Migrant and Seasonal Agricultural Worker Protection Act violations), sca_violtn_cnt (Service Contract Act violations), fmla_violtn_cnt (Family and Medical Leave Act violations), h1b_violtn_cnt (H-1B work visa violations), flsa_cl_violtn_cnt (Child Labor violations under FLSA). Then, I used the summarize() function to calculate the total number of violations under each law. I renamed the output columns for clarity, so each total reflects the respective violation type. However, the way the results were displayed using the previous function made it difficult to measure or analyze the data clearly. Therefore, I wanted to restructure the output by having all violation types listed in one column and their corresponding violation numbers in another column.
+
+To achieve this, I used the pivot_longer() function. In my mid-term project, I had used pivot_wider(), so I was already familiar with how the pivot_longer() function works. I applied it here to display the results in a more readable format and then arranged them in descending order for easier comparison and analysis.
+```{r}
+
+US_wage_theft %>%
+    select(flsa_violtn_cnt, mspa_violtn_cnt,  sca_violtn_cnt, 
+         fmla_violtn_cnt, h1b_violtn_cnt, flsa_cl_violtn_cnt) %>%
+  summarize (Fair_Labor_Standards_Violation = sum (flsa_cl_violtn_cnt), 
+             Migrant_Agricultural_Protection_Violation = sum (mspa_violtn_cnt), 
+             Service_Contract_Violation = sum (sca_violtn_cnt),
+             Family_Medical_Leave_Violation = sum (fmla_violtn_cnt), 
+             Immigration_Work_Visa_Violation = sum (h1b_violtn_cnt), 
+             Child_labor_Violation = sum (flsa_cl_violtn_cnt))
+
+#Final code: 
+US_wage_theft %>%
+    select(flsa_violtn_cnt, mspa_violtn_cnt,  sca_violtn_cnt, 
+         fmla_violtn_cnt, h1b_violtn_cnt, flsa_cl_violtn_cnt) %>%
+  summarize (Fair_Labor_Standards_Violation = sum (flsa_cl_violtn_cnt), 
+             Migrant_Agricultural_Protection_Violation = sum (mspa_violtn_cnt), 
+             Service_Contract_Violation = sum (sca_violtn_cnt),
+             Family_Medical_Leave_Violation = sum (fmla_violtn_cnt), 
+             Immigration_Work_Visa_Violation = sum (h1b_violtn_cnt), 
+             Child_labor_Violation = sum (flsa_cl_violtn_cnt)) %>%
+  pivot_longer(cols = everything(), names_to = "Violation_Type", values_to = "Total_Count") %>%
+  arrange(desc(Total_Count))
+```
+
+
+```{r}
+
+US_wage_theft %>%
+  filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
+  group_by(Year) %>%
+  select(flsa_violtn_cnt, mspa_violtn_cnt,  sca_violtn_cnt, 
+         fmla_violtn_cnt, h1b_violtn_cnt, flsa_cl_violtn_cnt) %>%
+  summarize (Fair_Labor_Standards_Violation = sum (flsa_cl_violtn_cnt), 
+             Migrant_Agricultural_Protection_Violation = sum (mspa_violtn_cnt), 
+             Service_Contract_Violation = sum (sca_violtn_cnt),
+             Family_Medical_Leave_Violation = sum (fmla_violtn_cnt), 
+             Immigration_Work_Violation = sum (h1b_violtn_cnt), 
+             Child_labor_Violation = sum (flsa_cl_violtn_cnt)) %>%
+  arrange (Year)
+
+
+```
+
+
+```{r}
+
+US_wage_theft %>%
+  group_by(st_cd) %>%
+    select(flsa_violtn_cnt, mspa_violtn_cnt,  sca_violtn_cnt, 
+         fmla_violtn_cnt, h1b_violtn_cnt, flsa_cl_violtn_cnt) %>%
+  summarize (Fair_Labor_Standards_Violation = sum (flsa_cl_violtn_cnt), 
+             Migrant_Agricultural_Protection_Violation = sum (mspa_violtn_cnt), 
+             Service_Contract_Violation = sum (sca_violtn_cnt),
+             Family_Medical_Leave_Violation = sum (fmla_violtn_cnt), 
+             Immigration_Work_Violation = sum (h1b_violtn_cnt), 
+             Child_labor_Violation = sum (flsa_cl_violtn_cnt))
+
+```
+
+
+
+Q12. how the top five employeer that done highest violation in total,  type of varied in different year? 
+
+```{r}
+
+US_wage_theft %>%
+  filter(st_cd %in% c("FL", "TX", "TN", "AR", "CA")) %>%
+  filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
+  group_by(Year, st_cd) %>%
+  summarize(total_violation = sum(case_violtn_cnt)) %>%
+  pivot_wider(names_from = "st_cd", values_from = "total_violation") 
+
+
+
+```
+```{r}
+
+US_wage_theft %>%
+  filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
+  group_by(Year, st_cd) %>%
+  summarize(total_violation = sum(case_violtn_cnt)) %>%
+  pivot_wider(names_from = "st_cd", values_from = "total_violation") 
+
+```
+
