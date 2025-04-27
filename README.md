@@ -3,7 +3,9 @@
 This project aims to look into wage theft in Missouri and the US, using the Wage and Hour Compliance Action Data. It will focus on finding businesses accused of wage theft and what actions have been taken against them. This will help understand how wage theft is handled in Missouri and if there are any common trends.
 
 #Data source: Wage and Hour Compliance Action Data, Wage and Hour Division, Department of Labor
+
 #Data link: https://enforcedata.dol.gov/views/data_summary.php
+
 #Data release: 1985 - present
 
 Details: The dataset contains all concluded WHD compliance actions since FY 1985. The dataset
