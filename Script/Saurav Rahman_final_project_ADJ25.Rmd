@@ -9,11 +9,11 @@ output: html_notebook
 #Details: Create a interactive portal where people explore decade-long trends in wage theft by state, industry, employer and all other related information. 
 
 #Story idea:
-#1: Wage theft cases are going down—but why? 
+#1. Wage theft cases are going down—but why? 
 An analysis of why wage theft is happening less often now and if that’s really a good sign.
-#2:Workers in Health and Personal Care Stores faces the most wage theft.
+#2. Workers in Health and Personal Care Stores faces the most wage theft.
 Why and how people in the Health and Personal Care Stores are the most likely to be affected by wage theft.
-#3: Why West Virginia and Arkansas have the most wage theft in per 10,000 population?
+#3. Why West Virginia and Arkansas have the most wage theft in per 10,000 population?
 An investigative look at why these two states have more wage theft than others.
 #4. Why does Rhode Island take the longest time to conclude a wage theft case?
 Explore the reasons behind Rhode Island's unusually long average case duration for resolving wage theft.
