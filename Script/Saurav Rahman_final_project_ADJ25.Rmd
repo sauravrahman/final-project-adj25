@@ -3,7 +3,7 @@ title: "Saurav Rahman_final_project_ADJ25"
 output: html_notebook
 ---
 
-#Summary (National): Wage theft is still a big problem in the United States. According to the Wage and Hour Complince Acition data, Texas has the most wage theft cases with 45,983 individual cases, while Florida has the highest number of total violations at 1,185,054 violations across 29,046 cases. Missouri ranks 13th for the number of cases, with 7,871 violations, and 25th for total violations with 131,087. Subway has the most wage theft cases filed against it, with 1,359 cases. Wells Fargo has committed the most violations, with a total of 530,002 violations. Walmart affected 88,278 workers with its violations. The Puerto Rico Department of Corrections had to pay the highest amount in back wages: $39,950,933.10. The restaurant and hotel industry has the most violations. Over the last 10 years, the number of wage theft cases and violations has gone down, showing that things may be improving, especially with laws like the Family and Medical Leave Act (FMLA) and child labor laws.
+#Summary (National): According to the Wage and Hour Compliance Action data, Texas has the highest number of wage theft cases, with 45,983 individual cases, while Florida has the highest total number of violations, with 1,185,054 violations across 29,046 cases. When adjusted for population, West Virginia has the highest number of wage theft cases per 10,000 people, with 20 cases per 10,000 residents. Missouri ranks 18th on this list, with around 13 cases per 10,000 people. In terms of violations per 10,000 people, Arkansas ranks first with 2,910 violations, while Missouri ranks 46th, with 212 violations per 10,000 people. Among companies, Subway has the most wage theft cases filed against it, totaling 1,359 cases. Wells Fargo has the highest number of violations, with 530,002 violations—although all from a single case. Walmart has the highest average number of affected employees per case, with 104 cases across all states and an average of 848 employees affected per case, totaling 88,278 workers. Dollar General had the highest average number of violations per case. The company was involved in 84 cases with a total of 141,139 violations, which means it committed about 1,680 violations per case on average. The Puerto Rico Department of Corrections was required to pay the highest amount in back wages—$39,950,933.10. Industry-wise, the restaurant and hotel industry has the highest total number of wage theft violations. However, in terms of average violations per case, Health and Personal Care Stores rank highest, with about 3,710 violations per case. Over the last 10 years, both the number of wage theft cases and violations have declined, suggesting possible improvement—especially with the enforcement of laws like the Family and Medical Leave Act (FMLA) and child labor protections.
 
 #Project idea: Tracking Wage Theft in America
 #Details: Create a interactive portal where people explore decade-long trends in wage theft by state, industry, employer and all other related information. 
@@ -11,22 +11,22 @@ output: html_notebook
 #Story idea:
 #1: Wage theft cases are going down—but why? 
 An analysis of why wage theft is happening less often now and if that’s really a good sign.
-#2:Workers in restaurants and hotels faces the most wage theft.
-Why and how people in the food and hotel industry are the most likely to be affected by wage theft.
-#3: Why Florida and Texas have the most wage theft?
+#2:Workers in Health and Personal Care Stores faces the most wage theft.
+Why and how people in the Health and Personal Care Stores are the most likely to be affected by wage theft.
+#3: Why West Virginia and Arkansas have the most wage theft in per 10,000 population?
 An investigative look at why these two states have more wage theft than others.
-#4: Big companies, big violations.
-Subway, Wells Fargo and Walmart have broken wage laws many times and what has happened because of it.
+#4. Why does Rhode Island take the longest time to conclude a wage theft case?
+Explore the reasons behind Rhode Island's unusually long average case duration for resolving wage theft.
 
-#Summary (Missouri): In Missouri, George's Processing, Incorporated had the highest number of Wage & Hour Compliance violations, with 3,148 violations in 2 cases. This company also paid the highest back wages, amounting to $1,245,257.09 to 3,084 employees. The employer also violated the law against the highest number of employees in Missouri, affecting 3,147 workers. Missouri Vegetable Farm paid the highest civil money penalties of $384,626.61 for violations. The city of Saint Louis recorded the highest number of cases, violations, and affected employees in Missouri, with 1,487 cases, 25,019 violations, and 21,956 affected employees, repectivly. Over the past 10 years, Missouri has seen a decline in wage and hour violations, with a drop in cases from 318 in 2020 to just 6 in 2024. Missouri's average time to resolve a Wage & Hour Compliance case is 589 days, with a median time of 728 days (about two years). One case, involving Blue Springs Lawn & Garden, took 4,840 days—more than 13 years—to complete.
+#Summary (Missouri): In Missouri, George's Processing, Incorporated had the highest number of Wage & Hour Compliance violations, with 3,148 violations across 2 cases. The company also paid the highest amount in back wages—$1,245,257.09—to 3,084 employees. It affected the most workers in the state, with a total of 3,147 employees impacted. However, since businesses vary in size, comparing total numbers alone may not provide a complete picture. When looking at the average number of violations per case, the results differ—Imo's Pizza had the highest average, with about 23 violations per case. Missouri Vegetable Farm paid the highest civil money penalties, totaling $384,626.61. The city of St. Louis recorded the highest number of cases, violations, and affected employees in Missouri, with 1,487 cases, 25,019 violations, and 21,956 affected employees, respectively. Over the past 10 years, Missouri has seen a decline in wage and hour violations, with cases dropping from 318 in 2020 to just 6 in 2024. The average time to resolve a Wage & Hour Compliance case in Missouri is 589 days, while the median time is 728 days—about two years. One case, involving Blue Springs Lawn & Garden, took 4,840 days—more than 13 years—to complete.
 
 #Story idea:
 #1: Missouri’s declining wage theft trends
 Analyzing the decline in wage theft violations in Missouri over the last decade, from 318 cases in 2020 to just 6 in 2024. What’s driving this positive trend, and what’s still being missed?
 #2. Wage theft in Saint Louis the highest violations in Missouri"
 A focus on Saint Louis, which recorded 1,487 cases and 25,019 violations. This story would explore the impact on workers and what is being done to address the problem.
-#3. George's Processing leads Missouri in wage violations and back wages. 
-A detailed story about George's Processing, Incorporated, the company with the most violations and highest back wages paid in Missouri, affecting over 3,000 employees.
+#3. Why did the wage theft case against Blue Springs Lawn & Garden in Blue Springs, Missouri, take more than 13 years to complete?
+Investigate the the unusually long duration to complete the case. 
 
 
 #Load library
@@ -86,17 +86,19 @@ US_wage_theft <- cleaned_wage_theft %>%
 ```
 
 5.What are the date boundaries of the data? 
-#need attention 
+#Answer: According to the dataset, the date range starts from 1900-01-07 and ends on 3590-01-01, which both appear to be typos. After manually checking by arranging the dates, I found that 18 rows contain incorrect or misleading date entries. All other dates seem to be accurate.
 ```{r}
 
 US_wage_theft %>% 
-  mutate(Date = mdy (Date)) %>% 
+  mutate(Date = mdy (Date), na.rm = TRUE) %>% 
   summarise(range(Date))
 
 US_wage_theft %>% 
   mutate(Date = ymd (Date)) %>% 
   summarise(range(Date))
 
+#Final code:
+range(US_wage_theft$Date, na.rm=T)
 ```
 
 6. In total, how many years and months of data are in this data set?
@@ -187,48 +189,95 @@ US_wage_theft %>%
   count(st_cd) %>%
   arrange (desc (n))
 
+```
+
+#However, the problem with the above code is that it does not reflect the actual scenario of wage theft in each state. This is because every state has its own demographic differences, such as population and area size. For example, a state with a larger population is likely to have more businesses, which could naturally result in a higher number of wage theft cases compared to a smaller state. Therefore, to make a fair comparison, I will examine which state has the highest number of wage theft cases per 10,000 people, according to Wage and Hour Compliance Action data.
+
+Q2. Which state has the highest number of wage theft cases per 10,000 people, according to Wage and Hour Compliance Action data. Where does Missouri rank on the list?
+#Answer:West Virginia, 20 cases in per 10,000 people. Missouri ranks 18th on the list, with around 13 violation cases in per 10,000 people . 
+
+#Process: To get the answer for the state with the highest number of wage theft cases per 10,000 people, I needed population data for each U.S. state. For this, I used the tidycensus library. So, the first step was to load that library. Next, I used the get_acs() function, as I was already familiar with it from a weekly class assignment. I used the variable B01003_001, which represents the total population. Since I needed the population of each state, I set geography = "state", and selected the year 2023, as it's the most recent data available for that variable. This code gave me a dataset called US_state_population. Now, to calculate wage theft cases per 10,000 people, I started by counting how many times each state appears in the wage theft dataset (specifically in the st_cd column). This count represents the number of cases in each state. Next, I used mutate() to standardize state names in both datasets. In the US_state_population dataset, states are listed by their full names, while in the US_wage_theft dataset, they are represented using abbreviations (e.g., "DC"). To match them, I used the state.name[match()] function and included is.na to avoid potential errors in case of missing matches. After standardizing names, I joined the two datasets using a left join, bringing in both the state name and population estimate. Then, I used mutate() again to calculate the number of cases per 10,000 people by dividing the case count by the total population of each state and multiplying the result by 10,000. Finally, I arranged the result in descending order based on the cases_per_10K value.
+```{r}
+#load the library
+
+library(tidycensus)
+
+US_state_population <- get_acs(
+  geography = "state",
+  variables = "B01003_001", 
+  year = 2023)
+
+US_wage_theft %>%
+  count(st_cd) %>%
+  mutate(state = state.name[match(st_cd, state.abb)],
+    state = case_when(st_cd == "DC" ~ "District of Columbia",
+      !is.na(state) ~ state,
+      TRUE ~ st_cd)) %>%
+  left_join(US_state_population %>% select(NAME, estimate), by = c("state" = "NAME")) %>%
+  mutate(cases_per_10k = (n / estimate) * 10000) %>%
+  arrange(desc(cases_per_10k))
 
 ```
 
-Q2. Which state experienced the highest total number of wage theft violations in the United States, according to Wage and Hour Compliance Action Data? Where does Missouri rank on the list?
-#Answer: Florida recorded the highest number, with a total of 1,185,054 Wage and Hour Compliance violations across 29,046 cases. Missouri ranks 25th on the list, with a total of 131,087 violations.
 
-#Process:The Department of Labor found several compliance violations in each wage theft case, meaning that a single case can involve multiple violations. Based on these violations, authorities fined the companies. Therefore, it is important to examine the number of violations committed by businesses in different states.To do this, I first grouped the data by state, then summarized the case_violtn_cnt column, which represents the total number of violations per case. Finally, I arranged the results in descending order to identify the states where businesses violated wage and hour compliance the most.  
+Q3. Which state has the highest total number of wage theft violations per 10,000 people, according to Wage and Hour Compliance Action data. Where does Missouri rank on the list?
+#Answer:  Arkansas recorded the highest number of wage theft violations per 10,000 people, with 2,910 cases. Missouri ranks 46th on the list, with 212 violations per 10,000 people.
+
+#Process: To answer this question, I followed a process very similar to the previous one, since the goal was again to calculate state-level violations per 10,000 people. However, this time I needed the total number of violations rather than just the count of entries.First, I grouped the data by state using group_by(state), and then used the summarize() function to calculate the total number of violations for each state. Next, I followed the same procedure to merge the population data using a left join, ensuring the population estimates were matched with each state's violation data. To calculate violations per 10,000 people, I used the mutate() function. I divided the total number of violations by the population estimate for each state and then multiplied the result by 10,000. Finally, I used arrange(desc(violations_per_10K)) to sort the results in descending order based on the violations per 10,000 people. 
 ```{r}
 
 US_wage_theft %>%
   group_by(st_cd) %>%
-  summarise (Total_Violation = sum (case_violtn_cnt)) %>%
-  arrange (desc (Total_Violation))
+  summarise(Total_Violation = sum(case_violtn_cnt)) %>%
+  mutate(state = state.name[match(st_cd, state.abb)],
+  state = case_when(st_cd == "DC" ~ "District of Columbia",!is.na(state) ~ state, TRUE ~ st_cd)) %>%
+  left_join(US_state_population %>% select(NAME, estimate), by = c("state" = "NAME")) %>%
+  mutate(violations_per_10k = (Total_Violation / estimate) * 10000) %>%
+  arrange(desc(violations_per_10k))
 
 ```
 
-Q3. Against which company or business did employees file the highest number of wage theft cases in the United States, according to Wage and Hour Compliance Action Data?
-#Answer: Subway. There are a total of 1,359 cases across all states in which Subway was found guilty of violating Wage and Hour Compliance.
+Q4. Which company affected the highest number of employees on average in each wage theft case in the United States, according to Wage and Hour Compliance Action Data?
+#Answer: Walmart. There are a total of 104 cases across all states involving Walmart, with an average of 848 employees affected per case. 
 
-#Process:During the assessment of the dataset, I found that there are several employers who have multiple cases across the U.S. Many of these employers operate chain businesses in different states. So, while analyzing the national data, I wanted to identify which employers or businesses have the highest number of total cases.To do this, I used the count() function on the employer name (trade_nm), similar to how I counted total cases by state. 
-```{r}
-
-US_wage_theft %>%
-  count(trade_nm) %>%
-  arrange (desc (n))
-
-```
-
-Q4. Which company or business committed the highest number of wage theft violations in the United States, according to Wage and Hour Compliance Action Data?
-#Answer: Wells Fargo Bank, N.A. accounted for the highest number, with a total of 530,002 Wage and Hour Compliance violations in the U.S.
-
-#Process: Since the number of cases and the number of violations are different, I wanted to identify which employers had the highest number of violations. To do this, I grouped the data by trade_nm (employer name), then summarized the case_violtn_cnt (total number of violations), and arranged the results in descending order. I could have included this analysis in the previous question as well. However, that would have required choosing just one indicator to sort by. In doing so, I wouldn't have been able to identify the employers with the highest numbers for both indicators, as the employers with the most cases are not necessarily the same as those with the most violations.
+#Process: To find the answer, I first grouped the data by employer (trade_nm). Then, I used the summarize() function. I counted the total number of cases using n(), and added up the number of affected employees using the sum() function on ee_voiltd_cnt, which shows how many employees were affected. After that, I get the average number of affected employees per case by dividing the total number of affected employees by the number of cases. But to keep the results fair, I didn’t include companies that had very few cases. Sometimes a company with just one case and many affected workers could end up at the top of the list. So, I only included companies with more than 50 cases in the U.S. Finally, I sorted the data from highest to lowest based on the average number of affected employees per case to find out which company had the most on average.  
 ```{r}
 
 US_wage_theft %>%
   group_by(trade_nm) %>%
-  summarise (Total_Violation = sum (case_violtn_cnt)) %>%
-  arrange (desc (Total_Violation))
+  summarize(case_count = n(),
+    total_affected_employees = sum(ee_violtd_cnt),
+    avg_affected_per_case = total_affected_employees / case_count) %>%
+  filter(case_count >= 50) %>% 
+    arrange(desc(avg_affected_per_case))
 
 ```
 
-Q5. Which employer/business had to pay the highest amount in back wages to its employees for violating Hour and Wage Compliance across the U.S.?
+
+Q5. Which company or business committed the highest average number of wage theft violations in the United States, according to Wage and Hour Compliance Action Data?
+#Answer: Dollar General had the highest average number of violations. The company was involved in 84 cases with a total of 141,139 Wage and Hour Compliance violations. This means, on average, Dollar General committed about 1,680 violations per case.
+
+#Process: Process: Since the number of cases and the number of violations are different, I wanted to find out which employers had the highest number of violations. But just looking at the total number of violations doesn’t show the full picture. For example, Wells Fargo Bank, N.A. had the highest total violations (530,002), but it came from only one case. So, I decided to look at the average number of violations per case. To do this, I grouped the data by trade_nm (employer name), then used the summarize() function to count the total number of cases and total number of violations (case_violtn_cnt). After that, I calculated the average violations per case by dividing total violations by total cases. Finally, I arranged the results in descending order based on the average violations per case. Like in the previous question, to keep the results fair, I didn’t include companies that had very few cases. Sometimes, a company with just one case and many violations could end up at the top of the list, which wouldn’t show the real picture. So, I only included companies that had more than 50 cases across the U.S.
+```{r}
+
+US_wage_theft %>%
+  group_by(trade_nm) %>%
+  summarise (case_count = n(), 
+             Total_Violation = sum (case_violtn_cnt)) %>%
+  arrange (desc (Total_Violation))
+
+#Final code:
+US_wage_theft %>%
+  group_by(trade_nm) %>%
+  summarise (case_count = n(), 
+             Total_Violation = sum (case_violtn_cnt), 
+             Avg_violation = Total_Violation / case_count) %>%
+  filter(case_count >= 50) %>% 
+  arrange (desc (Avg_violation))
+
+```
+
+Q6. Which employer/business had to pay the highest amount in back wages to its employees for violating Hour and Wage Compliance across the U.S.?
 #Answer: Puerto Rico Department of Corrections — $39,950,933.10.
 
 #Process:"Back Wages Agreed to Pay" is an important indicator, as it reflects the financial restitution provided to workers who were victims of wage theft or other labor violations. Therefore, I wanted to find out which employers had to pay the highest amount in back wages.To analyze this, I followed a similar approach as in the previous question. However, this time I summarized the bw_atp_amt (back wages agreed to pay) and arranged the results in descending order. The outcome revealed some new employer names that were not at the top in the previous analysis, indicating that different employers are associated with different types and levels of violations. Furthermore, I wanted to see how many employees were set to receive those back wages. So, I added another sum() function for the ee_atp_cnt indicator, which refers to the total number of employees receiving back wages. This result appeared in a separate column alongside the total back wages. 
@@ -241,8 +290,8 @@ US_wage_theft %>%
 
 ```
 
-Q6. Which employer/business had to pay the highest total amount of civil money penalties (CMP) for violating Hour and Wage Compliance across the U.S.?
-#Answer: The results contain some errors and need further review.
+Q7. Which employer/business had to pay the highest total amount of civil money penalties (CMP) for violating Hour and Wage Compliance across the U.S.?
+#Answer: The results contain some errors. I am getting the same trade name appearing twice after grouping the data. I couldn’t figure out exactly why this is happening, but I found that there is a problem with the trade name field.
 ```{r}
 
 US_wage_theft %>%
@@ -251,10 +300,21 @@ US_wage_theft %>%
   arrange (desc (total_cmp_assd))
 
 US_wage_theft %>% filter(trade_nm == "Peri & Sons Farm, Inc.")
+US_wage_theft %>% filter(grepl("Peri",trade_nm)) %>% arrange(case_id)
+
+name <- US_wage_theft %>% filter(case_id=="1559021") %>% pull(trade_nm)
+US_wage_theft %>% filter(trade_nm == name | grepl("Peri & Sons", trade_nm))
+
+US_wage_theft %>%
+  group_by(legal_name) %>%
+  summarise (total_cmp_assd = sum (cmp_assd)) %>%
+  arrange (desc (total_cmp_assd))
+
+US_wage_theft %>% filter(grepl("Peri & Sons",legal_name)) %>% arrange(case_id)
 
 ```
 
-Q7. Which employer/business violated Hour and Wage Compliance against the highest number of employees in the U.S.?
+Q8. Which employer/business violated Hour and Wage Compliance against the highest number of employees in the U.S.?
 #Answer: Walmart. A total of 88,278 employees were affected by Walmart's violations of Hour and Wage Compliance, which is the highest number in U.S.
 
 #Process: Another important variable in this dataset is ee_violtd_cnt, which refers to the number of employees affected by violations. Using this variable, I wanted to identify which employers affected the highest number of employees across the U.S. To analyze this, I grouped the data by trade_nm (employer name) and summarized the "ee_violtd_cnt" variable. Then, I arranged the results in descending order to highlight the employers with the greatest number of affected employees.  
@@ -267,7 +327,7 @@ US_wage_theft %>%
 
 ```
 
-Q8. What is the year-wise trend for Wage & Hour Compliance violation cases in the U.S.?
+Q9. What is the year-wise trend for Wage & Hour Compliance violation cases in the U.S.?
 #Answer: The year 2010 recorded the highest number of cases, with 24,954. However, the analysis shows that the period from 2009 to 2013 saw the highest yearly case counts for Wage & Hour Compliance violations. The total number of violations varied across these years. For example, in 2012, the total number of cases was comparatively lower among the top five years, but the total number of violations was the highest. 
 
 #Process: I wanted to analyze the year-wise trend of total Wage & Hour Compliance violation cases and the total number of violations. To do this, I grouped the data by year and then summarized both the number of cases and the total violations.For the number of cases, I used the count() function with n() to count each case as a single, unique instance. For violations, I used sum() to calculate the total number of violations across all cases for each year. Finally, I arranged the results of total cases in descending order to observe which years had the highest numbers of cases.
@@ -280,7 +340,7 @@ US_wage_theft %>%
 
 ```
 
-Q9. What is the trend in Wage & Hour Compliance violation cases in the U.S. over the last 10 years?
+Q10. What is the trend in Wage & Hour Compliance violation cases in the U.S. over the last 10 years?
 #Answer: Wage & Hour Compliance violation cases across the U.S. have been steadily decreasing over the past 10 years. In 2015, the total number of cases was 18,500, which dropped significantly to just 717 in 2024. However, the total number of violations within these cases varied by year. Despite these fluctuations, the number of violations has also shown a downward trend since 2019.
 
 #process: For this question, I followed a similar approach as in the previous questions, but added a filter for specific years. To apply the filter, I used the %in% c() syntax for accurate results. 
@@ -295,20 +355,30 @@ US_wage_theft %>%
 
 ```
 
-Q10. Which industry has the highest number of Wage & Hour Compliance cases and violations in the U.S.? How many employees were affected in those industries?
-#Answer: The restaurant and hotel industry has the highest number of Wage & Hour Compliance violation cases. This industry also tops the list in terms of total violations and the total number of affected employees.
+Q11. Which industry has the highest number of Wage & Hour Compliance cases and violations in the U.S.? How many employees were affected in those industries?
 
-#Process: To identify industry-wise wage theft patterns, I grouped the dataset by naics_code_description, which represents the name of the industry. After grouping, I summarized three key indicators: total cases, total number of violations, and total affected employees. I used count with n() to calculate the total number of wage theft cases per industry, treating each row as a unique instance. For the other two variables, I used the summarize() function to calculate the totals. Finally, I arranged the results in descending order based on the number of cases (count) to identify the industries with the highest number of reported wage and hour violations.
+#Answer: I have two answers to this question. If I look at the raw data without considering business size or context, the Restaurant and Hotel industry has the highest number of Wage & Hour Compliance cases. This industry also leads in total violations and the number of affected employees. However, not all industries are equal in size, so comparing total numbers alone may not give the full picture. When I calculate the average number of violations per case, the results change. In that case, Health and Personal Care Stores have the highest average, with about 3,710 violations per case.
+
+#Process (Answer 1 – Total Numbers): To identify industry-wise patterns, I grouped the dataset by naics_code_description, which shows the industry name. After grouping, I summarized three key things: Total number of cases (using n()), Total number of violations (using sum(case_violtn_cnt)), Total affected employees (using sum(ee_voiltd_cnt)). Then, I arranged the results in descending order based on the number of cases to find which industries had the most reported wage and hour violations.
+
+#Process (Answer 2 – Average Violations per Case): For a fairer comparison, I again grouped the data by naics_code_description. I used summarize() to: Count total cases using n(), Sum total violations and affected employees, Calculate the average violations per case by dividing total violations by the case count. To avoid misleading results from industries with very few cases, I filtered for industries with at least 50 cases. Finally, I sorted the data by average violations in descending order. 
 ```{r}
 
 US_wage_theft %>%
   group_by( industry = naics_code_description) %>%
-  summarise ( count = n(), total_violation = sum (case_violtn_cnt), total_affected_employees = sum (ee_violtd_cnt)) %>%
-  arrange (desc (count))
+  summarise ( case_count = n(), total_violation = sum (case_violtn_cnt), total_affected_employees = sum (ee_violtd_cnt)) %>%
+  arrange (desc (case_count))
+
+US_wage_theft %>%
+  group_by ( industry = naics_code_description) %>%
+  summarise (case_count = n(), total_violation = sum (case_violtn_cnt), total_affected_employees = sum (ee_violtd_cnt),
+              avg_violation = total_violation / case_count) %>%
+  filter(case_count >= 50) %>% 
+  arrange (desc (avg_violation))
 
 ```
 
-Q11: Which indicators of Wage & Hour Compliance Action data have the highest total violations? 
+Q12: Which indicators of Wage & Hour Compliance Action data have the highest total violations? 
 #Answer: Family and Medical Leave Act (FMLA) violation: 6,618,226. Following Service Contract Violation: 480,704. 
 
 #Process: Wage & Hour Complince  Action data has more than 80 variable, half of those are relate to voilation count. Among them 6 veriable are most impotant to follow accoding to Department of Labor. That why I messure those to answer this question. First, I selected six specific violation-related columns from the dataset: flsa_violtn_cnt (Fair Labor Standards Act violations), mspa_violtn_cnt (Migrant and Seasonal Agricultural Worker Protection Act violations), sca_violtn_cnt (Service Contract Act violations), fmla_violtn_cnt (Family and Medical Leave Act violations), h1b_violtn_cnt (H-1B work visa violations), flsa_cl_violtn_cnt (Child Labor violations under FLSA). Then, I used the summarize() function to calculate the total number of violations under each law. I renamed the output columns for clarity, so each total reflects the respective violation type. However, the way the results were displayed using the previous function made it difficult to measure or analyze the data clearly. Therefore, I wanted to restructure the output by having all violation types listed in one column and their corresponding violation numbers in another column. To achieve this, I used the pivot_longer() function. In my mid-term project, I had used pivot_wider(), so I was already familiar with how the pivot_longer() function works. I applied it here to display the results in a more readable format and then arranged them in descending order for easier comparison and analysis.
@@ -339,7 +409,7 @@ US_wage_theft %>%
 
 ```
 
-Q12: How has the number of major indicators of Wage & Hour Compliance violations varied over the years?
+Q13: How has the number of major indicators of Wage & Hour Compliance violations varied over the years?
 #Answer: The results show that every major indicator has decreased significantly over the past ten years. For instance, Fair Labor Standards Violations dropped from 3,550 in 2015 to just 42 in 2024. Service Contract Violation was 22,289 in 2015 and declined to 200 in 2024. Family and Medical Leave Violations decreased from 220,774 to 2,872. Child Labor Violation also saw a reduction, from 3,550 in 2015 to 42 in 2024. This trend indicates substantial improvement in wage and hour compliance over the last decade.   
 
 #Process: To analyze year-wise data for each indicator, I first grouped the dataset by year. Since the dataset spans a long period, I filtered it to only include the most recent 10 years using the %in% operator. Then, I used the same code structure from the previous question to summarize violations for six major indicators. I also intended to calculate the negative growth percentage over the ten-year span to show the rate of improvement but was unable to write a code it successfully. Instead, I sorted the summarized data by year to observe the trend.
@@ -359,33 +429,16 @@ US_wage_theft %>%
   arrange (Year)
 
 ```
-Q13: How has the violation number of the major indicators of Wage & Hour Compliance Action data varied across the states?
-#Answer: The data does not provide a single, specific answer but rather a table with 57 rows representing different states and territories. However, states with the highest total number of violations also tend to rank high across various individual indicators. 
 
-#Process: To analyze state-wise data for each indicator, I first grouped the dataset by state.Then, I used the same code structure from the previous question to summarize violations for six major indicators. 
-```{r}
 
-US_wage_theft %>%
-  group_by(st_cd) %>%
-    select(flsa_violtn_cnt, mspa_violtn_cnt,  sca_violtn_cnt, 
-         fmla_violtn_cnt, h1b_violtn_cnt, flsa_cl_violtn_cnt) %>%
-  summarize (Fair_Labor_Standards_Violation = sum (flsa_cl_violtn_cnt), 
-             Migrant_Agricultural_Protection_Violation = sum (mspa_violtn_cnt), 
-             Service_Contract_Violation = sum (sca_violtn_cnt),
-             Family_Medical_Leave_Violation = sum (fmla_violtn_cnt), 
-             Immigration_Work_Violation = sum (h1b_violtn_cnt), 
-             Child_labor_Violation = sum (flsa_cl_violtn_cnt)) 
-
-```
-
-Q14. How do the top five states that have done the highest violations in total vary in terms of total violations of Wage and Hour Compliance over the last 10 years?
-#Answer: All five states have seen decreases in violations by 2024. Every state's total violation was below a thousand last year. Florida had the highest violations in 2017 with 117,685 and remained one of the top violators. Tennessee saw two spikes in violations: 266,410 in 2019 and 240,982 in 2021. Texas had high violations in the early years, especially in 2015 (83,727) and 2019 (163,653), then declined. California showed consistent mid-to-high violations with a peak in 2018 (89,522). Arkansas (AR) had a high violation in 2016 (456,237) but saw a decline afterward.
+Q14. How do the top five states that have done the highest violations in per 10,000 people vary in terms of total violations of Wage and Hour Compliance over the last 10 years?
+#Answer: All five states have seen decreases in violations by 2024. Every state's total violation was below a 500 last year. Arkansas had the highest violations in 2016 with 456,237 and remained one of the top violators. Tennessee saw two spikes in violations: 266,410 in 2019 and 240,982 in 2021. Alabama had high violations in the early years, especially in 2016 (144,881), then declined. Rhode Island showed consistent mid-to-high violations with a peak in 2020 (1,378). Minnesota had a high violation in 2017 (36,092) but saw a decline afterward.
 
 #Process: To answer this question, I filtered the data by both State and Year, as I needed information for five specific states over the last ten years. From the beginning of my code, I used the %in% operator to select only the relevant states and years.Next, I grouped the data by both Year and State, since I needed the violation numbers for each state across each year. After grouping, I summarized the total number of violations for each combination of year and state. Finally, to present the data clearly in a tabular format, I used the pivot_wider() function to reshape the data—making each state a separate column with years as rows. 
 ```{r}
 
 US_wage_theft %>%
-  filter(st_cd %in% c("FL", "TX", "TN", "AR", "CA")) %>%
+  filter(st_cd %in% c("AR", "RI", "TN", "MN", "AL")) %>%
   filter(Year %in% c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024)) %>%
   group_by(Year, st_cd) %>%
   summarize(total_violation = sum(case_violtn_cnt)) %>%
@@ -408,11 +461,11 @@ US_wage_theft %>%
               values_from = "total_violation") 
 
 ```
-Q16. Which state take highest time to complete a findings in average? 
-#Answer: Need attention
+Q16. Which state takes the longest time to complete a finding on average?
+#Answer: Rhode Island takes the longest time to complete a finding, with an average of 675 days, which is almost two years. The median time to complete a case there is even higher—728 days.
 
+#Process: To find the answer, I first created a new variable in the dataset called Days_to_complete, which I calculated by subtracting findings_start_date from findings_end_date using the as.numeric() function. Next, I arranged the data by Days_to_complete in descending order. However, I found some incorrect values in the dates—some records showed dates like the year 1900 or 3519, which are likely typos. According to the data dictionary, the Wage & Hour Compliance Action Data includes records only from 1985 to the present, so I filtered the data to include only dates between 1985 and 2025. After filtering, I grouped the data by state to see which states took the longest time to complete a case. I then used the summarize() function to calculate both the average (mean) and median number of days to complete a finding. To keep the results realistic and avoid missleading results from states with very few cases, I filtered for states with more than 50 cases.
 ```{r}
-
 
 US_wage_theft <- US_wage_theft %>%
   mutate (findings_start_date = ymd (findings_start_date), 
@@ -420,15 +473,28 @@ US_wage_theft <- US_wage_theft %>%
           Days_to_complete = as.numeric (findings_end_date - findings_start_date)) %>%
   arrange (desc(Days_to_complete))
 
+#Final code:
+US_wage_theft %>%
+    mutate(findings_start_date = ymd(findings_start_date), 
+    findings_end_date = ymd(findings_end_date),
+    Days_to_complete = as.numeric(findings_end_date - findings_start_date)) %>%
+  filter(Year >= 1985 & Year <= 2025) %>%
+  group_by(st_cd) %>%
+  summarize(avg_days_to_complete = mean(Days_to_complete, na.rm = TRUE),
+    median_days = median(Days_to_complete, na.rm = TRUE),
+    total_case = n()) %>%
+  filter(total_case >= 50) %>%
+  arrange(desc(avg_days_to_complete))
 
 ```
 #Missouri specific dataset: 
 
 #Process: After analyzing national percspective from the Wage and Hour Compliance Action Data, I wanted to look into missouri specific data set. Therefore I filter Missouri data only for my further analysis. For that, I use filter funtion and create a new data set called "MO_wage_theft" for furthur analysis. 
-
 ```{r}
+
 MO_wage_theft <- US_wage_theft %>%
   filter(st_cd == "MO")
+
 ```
 
 
@@ -455,23 +521,29 @@ MO_wage_theft <- MO_wage_theft %>%
 
 
 Q17: Which company/employer in Missouri had the highest record of Wage & Hour Compliance cases and number of violations?
-#Answer: Highest number of cases: Subway, with 33 cases. Highest number of violations: George's Processing, Incorporated, with a total of 3,148 violations across 2 cases.
+#Answer: I have two answers to this question. If I look at the raw data without considering business size or context, Highest number of cases: Subway, with 33 cases. Highest number of violations: George's Processing, Incorporated, with a total of 3,148 violations across 2 cases. However, not all business are equal in size, so comparing total numbers alone may not give the full picture. When I calculate the average number of violations per case, the results change. In that case, Imo's Pizza have the highest average, with about 23 violations per case.
 
-#Process: To answer these two related questions, I used a similar approach in both cases, with only a small difference in the arrangement step. I wanted to present the number of cases and total violations at the same time, but since the employers with the highest case count and highest total violations were different, I wrote two separate code blocks. The codewas  simple and similar to what I used for the national-level data. First, I grouped the data by trade_nm (employer name), then summarized it. For the number of cases, I used the n() function to count how many times each employer appeared in the trade_nm column—each appearance represents a case.For the total number of violations, I used the sum() function to calculate the total violation count per employer.    
+#Process 1 (Total Numbers): To get the total number of cases and violation, I used a similar approach in both cases, with only a small difference in the arrangement step. I wanted to present the number of cases and total violations at the same time, but since the employers with the highest case count and highest total violations were different, I wrote two separate code blocks. The codewas  simple and similar to what I used for the national-level data. First, I grouped the data by trade_nm (employer name), then summarized it. For the number of cases, I used the n() function to count how many times each employer appeared in the trade_nm column—each appearance represents a case.For the total number of violations, I used the sum() function to calculate the total violation count per employer.
+
+#Process 2 (Average Violations per Case): For a fairer comparison, I again grouped the data by business (trade_nm). I used summarize() to: Count total cases using n(), Sum total violations and affected employees, Calculate the average violations per case by dividing total violations by the case count. To avoid misleading results from business with very few cases, I filtered for business with at least 10 cases. Finally, I sorted the data by average violations in descending order. 
 ```{r}
 
+#Process 1:
 MO_wage_theft %>%
   group_by(trade_nm) %>%
   summarise ( count = n(), 
               Total_Violation = sum (case_violtn_cnt)) %>%
   arrange (desc (count))
 
+#Process 2: 
 MO_wage_theft %>%
   group_by(trade_nm) %>%
-  summarise ( count = n(), 
-              Total_Violation = sum (case_violtn_cnt)) %>%
-  arrange (desc (Total_Violation))
-
+  summarise (case_count = n(), 
+             Total_Violation = sum (case_violtn_cnt),
+             Total_affected_employees = sum (ee_violtd_cnt),
+             Avg_violation = Total_Violation / case_count) %>%
+  filter(case_count >= 10) %>% 
+  arrange (desc (Avg_violation))
 
 ```
 
@@ -502,26 +574,8 @@ MO_wage_theft %>%
 
 ```
 
-Q20. Which employer/business violated Hour and Wage Compliance against the highest number of employees in Missouri?
-#Answer: George's Processing, Incorporated. A total of 3147 employees were affected by  George's Processing's violations of Hour and Wage Compliance, which is the highest number in  Missouri.
-
-#Process: To analyze this, I grouped the data by trade_nm (employer name) and summarized the "ee_violtd_cnt" variable that refers, Number of employees affected by violations. Then, I arranged the results in descending order to highlight the employers with the highest number of affected employees.  
-```{r}
-
-MO_wage_theft %>%
-  group_by (trade_nm) %>%
-  summarize (Total_affected_employees = sum (ee_violtd_cnt)) %>%
-  arrange (desc (Total_affected_employees))
-
-MO_wage_theft %>%
-  group_by (trade_nm) %>%
-  summarize (Total_affected_employees = sum (ee_violtd_cnt)) %>%
-  arrange (trade_nm)
-
-```
 
 Q20: Which city in Missouri experienced the highest number of cases, highest number of violations, and the most affected employees according to the Wage & Hour Compliance violation data?
-
 #Answer: Saint Louis recorded the highest numbers with 1,487 cases, 25,019 total violations, and 21,956 affected employees.
 
 #Process: First, I grouped the data by city name (cty_nm). To answer all three parts of the question together, I used the summarize() function: For the number of cases, I used the n() function. Since each row represents a case, counting how many times a city appears gives the total number of cases. For total violations and affected employees, I used the sum() function on the relevant columns. Finally, I arranged the results in descending order by the number of cases. 
@@ -593,7 +647,6 @@ Q24. Which indicators of Wage & Hour Compliance Action data have the highest tot
 #Answer: Service_Contract_Violation: 6,208. following Family_Medical_Leave_Violation: 2,455. 
 
 #Process: Missouri Wage & Hour Complince data set has 75 variable, half of those are relate to voilation count. Among them 6 veriable are most impotant to follow accoding to Department of Labor. I messured those for national data as well. Those six indicators/veriables are:  flsa_violtn_cnt (Fair Labor Standards Act violations), mspa_violtn_cnt (Migrant and Seasonal Agricultural Worker Protection Act violations), sca_violtn_cnt (Service Contract Act violations), fmla_violtn_cnt (Family and Medical Leave Act violations), h1b_violtn_cnt (H-1B work visa violations), flsa_cl_violtn_cnt (Child Labor violations under FLSA). I select those for to show them in my analysis only. Then, I used the summarize() function to calculate the total number of violations under each law. I renamed the output columns for clarity, so each total reflects the respective violation type. However, the way the results were displayed using the previous function made it difficult to measure or analyze the data clearly. Therefore, I wanted to restructure the output by having all violation types listed in one column and their corresponding violation numbers in another column. To achieve this, I used the pivot_longer() function. Then arranged them in descending order for easier comparison and analysis.
-
 ```{r}
 
 MO_wage_theft %>%
@@ -650,32 +703,39 @@ MO_wage_theft %>%
 Q27. Which Wage and Hour Compliance violation case in Missouri took the longest time to complete?
 #Answer: The case number is 1035967. It is against Blue Springs Lawn & Garden from Blue Springs, Missouri. This case took 4,840 days to complete, which is more than 13 years. The findings began on September 26, 1997, and ended on December 27, 2010.
 
-#Process: Since I already created a variable called Days_to_complete that refers to the total number of days it took to close each case, I simply arranged that variable in descending order to find the answer. 
+#Process: To find the answer, I first created a new variable in the dataset called Days_to_complete, which I calculated by subtracting findings_start_date from findings_end_date using the as.numeric() function. Next, I filtered the data by state for get only MO data. Finnaly I arrange the data in descending order to find the answer. 
 ```{r}
-
-MO_wage_theft %>%
+ 
+  US_wage_theft %>%
+  mutate (findings_start_date = ymd (findings_start_date), 
+          findings_end_date = ymd (findings_end_date),
+          Days_to_complete = as.numeric (findings_end_date - findings_start_date)) %>%
+  filter (st_cd == "MO") %>%
   arrange (desc(Days_to_complete))
 
 ```
 
-
 Q28. What are the average and median days to complete a Wage and Hour Compliance violation case in Missouri?
 #Answer: The average number of days to complete a Wage & Hour Compliance violation case in Missouri is 589 days, and the median is 728 days, which is almost two years.
 
-#Process: To calculate the average and median values for the days to complete, I used the summarize function and wrote code to compute both the mean (average) and median. I also added na.rm = TRUE to avoid the NA values in the column. Since the column contained a few NA values, using na.rm = TRUE ensured that the calculation was based only on the available data; otherwise, the result would have been NA.
+#Process: To find the answer, I first created a new variable in the dataset called Days_to_complete, which I calculated by subtracting findings_start_date from findings_end_date using the as.numeric() function. Next,to calculate the average and median values for the days to complete, I used the summarize function and wrote code to compute both the mean (average) and median. I also added na.rm = TRUE to avoid the NA values in the column. Since the column contained a few NA values, using na.rm = TRUE ensured that the calculation was based only on the available data; otherwise, the result would have been NA.
 ```{r}
 
-MO_wage_theft%>%
+US_wage_theft %>%
+  mutate (findings_start_date = ymd (findings_start_date), 
+          findings_end_date = ymd (findings_end_date),
+          Days_to_complete = as.numeric (findings_end_date - findings_start_date)) %>%
+  filter (st_cd == "MO") %>%
   summarize(average_days = mean(Days_to_complete, na.rm = TRUE),
     median_days = median(Days_to_complete, na.rm = TRUE))
 
 ```
 
+Q29. In which industry do Wage & Hour Compliance violation cases take the longest median time to complete? And how has the time to complete a case in Missouri changed in the last 10 years?
 
-Q29. In which industry's Wage & Hour Compliance violation cases do the median days to complete a case take the longest?
-#Answer: The industry with the longest median time to complete a Wage & Hour Compliance violation case is Technical and Trade Schools. It takes 3,521 days—or approximately nine and a half years—to close a case in this industry.
+#Answer: The industry with the longest median time to complete a Wage & Hour Compliance violation case is Technical and Trade Schools. It takes 3,521 days—or about nine and a half years—to close a case in this industry. In Missouri, the median number of days to complete a case has dropped significantly over the last 10 years. In 2015, it was 729 days, but in 2024, it came down to just 146 days.
 
-#Process: To find the median days to complete a case by industry, I grouped the dataset by the naics_code_description column (which represents the industry). Then, I used the summarize() function to calculate the median of the Days_to_complete variable. Finally, I arranged the results in descending order based on the median days.  
+#Process: To find the median number of days to complete a case by industry, I grouped the dataset by the naics_code_description column, which represents industry names. Then, I used the summarize() function to calculate the median of the Days_to_complete variable. I arranged the results in descending order to identify which industries take the longest time. To analyze Missouri's trend over the last 10 years, I first filtered the dataset for cases in Missouri and for years 2015 through 2024. Then, I grouped the data by year, used the summarize() function again to find the median completion time each year, and tracked how it changed over time.
 ```{r}
 
 MO_wage_theft %>%
@@ -714,7 +774,6 @@ Q31. Which employer in Missouri violated the Fair Labor Standards the most, and 
 #Answer: The employer that violated the Fair Labor Standards Act the most in Missouri is Dog Days Bar and Grill, with a total of 41 violations. Industry-wise, Full-Service Restaurants had the highest number of Fair Labor Standards violations, totaling 375.
 
 #Process: This question has two parts, similar to the previous one. The only difference is that the main variable this time is Fair Labor Standards. I summarized the data in both pieces of code by grouping first by employer and then by industry name. Finally, I arranged the results by the Fair Labor Standards violation count in decending order.
-
 ```{r}
 
 MO_wage_theft %>%
@@ -733,7 +792,6 @@ Q32. Which employer in Missouri violated the Family and Medical Leave Act the mo
 #Answer: The employer that violated the Family and Medical Leave Act the most in Missouri is West County Care Center, with a total of 1,380 violations. Industry-wise, Nursing Care Facilities had the highest number of Family and Medical Leave Act violations, totaling 1,421.
 
 #Process: This question is similar to the previous two. Therefore, I followed almost the same process to answer this question, with the only change being the variable related to the Family and Medical Leave Act.
- 
 ```{r}
 
 MO_wage_theft %>%
