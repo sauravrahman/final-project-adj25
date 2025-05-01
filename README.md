@@ -8,7 +8,7 @@ This project aims to look into wage theft in Missouri and the US, using the Wage
 
 #Data release: 1985 - present
 
-Details: The dataset contains all concluded WHD compliance actions since FY 1985. The dataset
+Details: The data set contains all concluded WHD compliance actions since FY 1985. The dataset
 includes whether any violations were found, the back wage amount, the number of employees due
 back wages, and civil money penalties assessed. The strength of the data set lies in its long-time frame, covering
 the period from 1985 to the present. The complete data set contains 110 variables (columns) and 357,269 rows, with each row representing an
