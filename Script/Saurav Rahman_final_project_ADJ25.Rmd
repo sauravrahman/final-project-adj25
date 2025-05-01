@@ -6,14 +6,14 @@ output: html_notebook
 #Summary (National): According to the Wage and Hour Compliance Action data, Texas has the highest number of wage theft cases, with 45,983 individual cases, while Florida has the highest total number of violations, with 1,185,054 violations across 29,046 cases. When adjusted for population, West Virginia has the highest number of wage theft cases per 10,000 people, with 20 cases per 10,000 residents. Missouri ranks 18th on this list, with around 13 cases per 10,000 people. In terms of violations per 10,000 people, Arkansas ranks first with 2,910 violations, while Missouri ranks 35th, with 212 violations per 10,000 people. Among companies, Subway has the most wage theft cases filed against it, totaling 1,359 cases. Wells Fargo has the highest number of violations, with 530,002 violations—although all from a single case. Walmart has the highest average number of affected employees per case, with 104 cases across all states and an average of 848 employees affected per case, totaling 88,278 workers. Dollar General had the highest average number of violations per case. The company was involved in 84 cases with a total of 141,139 violations, which means it committed about 1,680 violations per case on average. The Puerto Rico Department of Corrections was required to pay the highest amount in back wages—$39,950,933.10. Industry-wise, the restaurant and hotel industry has the highest total number of wage theft violations. However, in terms of average violations per case, Health and Personal Care Stores rank highest, with about 3,710 violations per case. Over the last 10 years, both the number of wage theft cases and violations have declined, suggesting possible improvement—especially with the enforcement of laws like the Family and Medical Leave Act (FMLA) and child labor protections. Rhode Island takes the longest time to complete a case, with an average of 675 days, which is almost two years. The median time to complete a case there is even higher—728 days.
 
 #Project idea: Navigating Wage Theft in America
-#Details: Create a interactive portal where people explore decade-long trends in wage theft by state, industry, employer and all other related information. 
+#Details: Create an interactive portal where people explore decade-long trends in wage theft by state, industry, employer, and all other related information. 
 
 #Story idea:
 #1. Wage theft cases are going down—but why? 
-An analysis of why wage theft is happening less often now and if that’s really a good sign.
-#2. Workers in Health and Personal Care Stores faces the most wage theft.
+An analysis of why wage theft is happening less often now, and if that’s really a good sign.
+#2. Workers in Health and Personal Care Stores face the most wage theft.
 Why and how people in the Health and Personal Care Stores are the most likely to be affected by wage theft.
-#3. Why West Virginia and Arkansas have the most wage theft in per 10,000 population?
+#3. Why do West Virginia and Arkansas have the most wage theft per 10,000 population?
 An investigative look at why these two states have more wage theft than others.
 #4. Why does Rhode Island take the longest time to conclude a wage theft case?
 Explore the reasons behind Rhode Island's unusually long average case duration for resolving wage theft.
@@ -23,10 +23,10 @@ Explore the reasons behind Rhode Island's unusually long average case duration f
 #Story idea:
 #1: Missouri’s declining wage theft trends
 Analyzing the decline in wage theft violations in Missouri over the last decade, from 318 cases in 2020 to just 6 in 2024. What’s driving this positive trend, and what’s still being missed?
-#2. Wage theft in Saint Louis the highest violations in Missouri
+#2. Wage theft in Saint Louis has the highest violations in Missouri
 A focus on Saint Louis, which recorded 1,487 cases and 25,019 violations. This story would explore the impact on workers and what is being done to address the problem.
 #3. Why did the wage theft case against Blue Springs Lawn & Garden in Blue Springs, Missouri, take more than 13 years to complete?
-Investigate the the unusually long duration to complete the case. 
+Investigate the unusually long duration to complete the case. 
 
 #Load library
 ```{r}
@@ -41,7 +41,7 @@ library(tidyverse)
 wage_theft <- read_csv("data/whd_whisard.csv")
 
 ```
-#Data assesment: 
+#Data assessment: 
 #Get to know the data/ Data dictionary:
 1. How many rows?
 #Answer: 357,269 rows
@@ -49,7 +49,7 @@ wage_theft <- read_csv("data/whd_whisard.csv")
 2. What is one row?- 
 #Answer: Each row represents a single, concluded compliance action (investigation or case) conducted by the Department of Labor at a specific employer. 
 
-3. How many column?- 
+3. How many columns?- 
 #Answer: Initially, the dataset contained 110 columns. However, several columns contained only zero values and no meaningful data, so I excluded those. After removing these columns, the number of columns was reduced to 94. Next, I extracted the 'finding_start_date' column into separate columns for Date, Month, and Year to enable more detailed time-based analysis. This transformation increased the total number of columns to 97, with the addition of the new 'Date', 'Month', and 'Year' columns. 
 
 4. What is in every column?
