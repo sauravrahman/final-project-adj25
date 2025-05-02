@@ -6,11 +6,11 @@ output: html_notebook
 #Summary (National): According to the Wage and Hour Compliance Action data, Texas has the highest number of wage theft cases, with 45,983 individual cases, while Florida has the highest total number of violations, with 1,185,054 violations across 29,046 cases. When adjusted for population, West Virginia has the highest number of wage theft cases per 10,000 people, with 20 cases per 10,000 residents. Missouri ranks 18th on this list, with around 13 cases per 10,000 people. In terms of violations per 10,000 people, Arkansas ranks first with 2,910 violations, while Missouri ranks 35th, with 212 violations per 10,000 people. Among companies, Subway has the most wage theft cases filed against it, totaling 1,359 cases. Wells Fargo has the highest number of violations, with 530,002 violations—although all from a single case. Walmart has the highest average number of affected employees per case, with 104 cases across all states and an average of 848 employees affected per case, totaling 88,278 workers. Dollar General had the highest average number of violations per case. The company was involved in 84 cases with a total of 141,139 violations, which means it committed about 1,680 violations per case on average. The Puerto Rico Department of Corrections was required to pay the highest amount in back wages—$39,950,933.10. Industry-wise, the restaurant and hotel industry has the highest total number of wage theft violations. However, in terms of average violations per case, Health and Personal Care Stores rank highest, with about 3,710 violations per case. Over the last 10 years, both the number of wage theft cases and violations have declined, suggesting possible improvement—especially with the enforcement of laws like the Family and Medical Leave Act (FMLA) and child labor protections. Rhode Island takes the longest time to complete a case, with an average of 675 days, which is almost two years. The median time to complete a case there is even higher—728 days.
 
 #Project idea: Navigating Wage Theft in America
-#Details: Create an interactive portal where people explore decade-long trends in wage theft by state, industry, employer, and all other related information. 
+#Details: Create an interactive portal where people can explore decade-long trends in wage theft by state, industry, employer, and all other related information. 
 
 #Story idea:
 #1. Wage theft cases are going down—but why? 
-An analysis of why wage theft is happening less often now, and if that’s really a good sign.
+An analysis of why wage theft is happening less often now, and if that’s a good sign.
 #2. Workers in Health and Personal Care Stores face the most wage theft.
 Why and how people in the Health and Personal Care Stores are the most likely to be affected by wage theft.
 #3. Why do West Virginia and Arkansas have the most wage theft per 10,000 population?
@@ -80,7 +80,7 @@ US_wage_theft <- cleaned_wage_theft %>%
     Year = year(ymd(findings_start_date, quiet = TRUE)))
 
 ```
-5.What are the date boundaries of the data? 
+5. What are the date boundaries of the data? 
 #Answer: According to the dataset, the date range starts from 1900-01-07 and ends on 3590-01-01, which both appear to be typos. After manually checking by arranging the dates, I found that 18 rows contain incorrect or misleading date entries. All other dates seem to be accurate. My first two codes does not work because, there are some NA values, and some non-date values.
 
 ```{r}
@@ -240,7 +240,7 @@ US_wage_theft %>%
 Q4. Against which company or business did employees file the highest number of wage theft cases in the United States, according to Wage and Hour Compliance Action Data?
 #Answer: Subway. There are a total of 1,359 cases across all states in which Subway was found guilty of violating Wage and Hour Compliance.
 
-#Process:During the assessment of the dataset, I found that there are several employers who have multiple cases across the U.S. Many of these employers operate chain businesses in different states. So, while analyzing the national data, I wanted to identify which employers or businesses have the highest number of total cases.To do this, I used the count() function on the employer name (trade_nm), similar to how I counted total cases by state.
+#Process: During the assessment of the dataset, I found that there are several employers who have multiple cases across the U.S. Many of these employers operate chain businesses in different states. So, while analyzing the national data, I wanted to identify which employers or businesses have the highest number of total cases.To do this, I used the count() function on the employer name (trade_nm), similar to how I counted total cases by state.
 
 ```{r}
 
@@ -385,7 +385,6 @@ US_wage_theft %>%
 ```
 
 Q12. Which industry has the highest number of Wage & Hour Compliance cases and violations in the U.S.? How many employees were affected in those industries?
-
 #Answer: I have two answers to this question. If I look at the raw data without considering business size or context, the Restaurant and Hotel industry has the highest number of Wage & Hour Compliance cases. This industry also leads in total violations and the number of affected employees. However, not all industries are equal in size, so comparing total numbers alone may not give the full picture. When I calculate the average number of violations per case, the results change. In that case, Health and Personal Care Stores have the highest average, with about 3,710 violations per case.
 
 #Process (Answer 1 – Total Numbers): To identify industry-wise patterns, I grouped the dataset by naics_code_description, which shows the industry name. After grouping, I summarized three key things: Total number of cases (using n()), Total number of violations (using sum(case_violtn_cnt)), Total affected employees (using sum(ee_voiltd_cnt)). Then, I arranged the results in descending order based on the number of cases to find which industries had the most reported wage and hour violations.
@@ -637,7 +636,7 @@ MO_wage_theft %>%
 Q22: In which year did Missouri experience the highest number of cases, highest number of violations, and the most affected employees according to the Wage & Hour Compliance violation data?
 #Answer: The highest number of cases was filed in 2009, with 527 cases. The highest number of violations occurred in 2006, with 12,329 violations. That same year (2006), 11,907 employees were affected—the highest recorded. 
 
-#Process:The process was similar to the one I used in previous questions. I started by grouping the data by year, then used count() and summarize() to get values for the three variables: number of cases, total violations, and number of affected employees.Since the year with the most cases was different from the year with the most violations and affected employees, I used the same code but arranged the results separately—first by case count, then by total violations—to identify each highest year.
+#Process: The process was similar to the one I used in previous questions. I started by grouping the data by year, then used count() and summarize() to get values for the three variables: number of cases, total violations, and number of affected employees.Since the year with the most cases was different from the year with the most violations and affected employees, I used the same code but arranged the results separately—first by case count, then by total violations—to identify each highest year.
 
 ```{r}
 
@@ -784,7 +783,6 @@ US_wage_theft %>%
 ```
 
 Q30. In which industry do Wage & Hour Compliance violation cases take the longest median time to complete? And how has the time to complete a case in Missouri changed in the last 10 years?
-
 #Answer: The industry with the longest median time to complete a Wage & Hour Compliance violation case is Technical and Trade Schools. It takes 3,521 days—or about nine and a half years—to close a case in this industry. In Missouri, the median number of days to complete a case has dropped significantly over the last 10 years. In 2015, it was 729 days, but in 2024, it came down to just 146 days.
 
 #Process: To find the median number of days to complete a case by industry, I grouped the dataset by the naics_code_description column, which represents industry names. Then, I used the summarize() function to calculate the median of the Days_to_complete variable. I arranged the results in descending order to identify which industries take the longest time. To analyze Missouri's trend over the last 10 years, I first filtered the dataset for cases in Missouri and for years 2015 through 2024. Then, I grouped the data by year, used the summarize() function again to find the median completion time each year, and tracked how it changed over time.
