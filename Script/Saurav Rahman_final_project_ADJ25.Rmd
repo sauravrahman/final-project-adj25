@@ -80,6 +80,7 @@ US_wage_theft <- cleaned_wage_theft %>%
     Year = year(ymd(findings_start_date, quiet = TRUE)))
 
 ```
+
 5. What are the date boundaries of the data? 
 #Answer: According to the dataset, the date range starts from 1900-01-07 and ends on 3590-01-01, which both appear to be typos. After manually checking by arranging the dates, I found that 18 rows contain incorrect or misleading date entries. All other dates seem to be accurate. My first two codes does not work because, there are some NA values, and some non-date values.
 
@@ -149,6 +150,7 @@ US_wage_theft %>%
 #Answer: Yes, there are 3 rows where the state name of the employer/business is not mentioned.
 
 #Process: I used the same is.na() function to check for missing values in the "st_cd" column. The result showed 3 blank rows, indicating that the state name is not provided in those rows.
+
 ```{r}
 
 US_wage_theft %>%
@@ -160,6 +162,7 @@ US_wage_theft %>%
 #Answer: 357,269. This indicates that there are no duplicate case ID numbers in the dataset—all case IDs are unique.
 
 #Process: I wanted to check how many unique case_id exist and whether any case IDs are repeated or duplicated. For that, I used the summarize() function with the n_distinct() code. The result returned the same number of rows as in the dataset, which confirms that all case_id values are unique.
+
 ```{r}
 
 US_wage_theft %>%
@@ -171,6 +174,7 @@ US_wage_theft %>%
 #Answer: 298,751. This indicates that many employers appear multiple times for wage violations in different states across the U.S.
 
 #Process:I wanted to check how many unique employers exist in the dataset. For that, I used the summarize() function with the n_distinct() code, similar to the previous question. 
+
 ```{r}
 
 US_wage_theft %>%
@@ -183,6 +187,7 @@ Q1. Which state has the highest number of wage theft cases in the United States,
 #Answer: Texas has the highest number, with 45,983 individual cases of Wage and Hour Compliance violations. Missouri ranks 13th on the list, with 7,871 violation cases.
 
 #Process: To identify the state-wise wage theft cases, I used the count() function. Since each case is represented by an individual row, and each row includes a specific state name, I counted the state using the count() function. Then, I arranged the results in descending order to find the state with the highest number of wage theft cases in the U.S. 
+
 ```{r}
 
 US_wage_theft %>%
